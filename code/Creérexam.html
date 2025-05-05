@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Créer un nouvel examen</title>
+  <link href="test.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f2f4f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #004080;
+      color: white;
+      width: 100%;
+      padding: 1rem 0;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .form-container {
+      margin-top: 3rem;
+      background: white;
+      padding: 2.5rem 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 600px;
+      width: 90%;
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #004080;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1.2rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.9rem;
+      background-color: #004080;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background-color: #0066cc;
+    }
+  </style>
+</head>
+<body>
+
+  <header>Créer un examen</header>
+
+  <div class="form-container">
+    <h2>Nouveau Examen</h2>
+
+    <input type="text" id="nomExamen" placeholder="Nom de l'examen" required>
+    <input type="text" id="matiere" placeholder="Matière / Sujet" required>
+    <input type="text" id="niveau" placeholder="Niveau / Classe" required>
+    <input type="date" id="date" required>
+    <input type="number" id="duree" placeholder="Durée (minutes)" required>
+    <input type="number" id="nbQuestions" placeholder="Nombre de questions" required>
+
+    <select id="type" required>
+      <option disabled selected>Type d'examen</option>
+      <option>Test</option>
+      <option>Contrôle</option>
+      <option>Examen final</option>
+    </select>
+
+    <select id="mode" required>
+      <option disabled selected>Mode de passation</option>
+      <option>Présentiel</option>
+      <option>À distance</option>
+    </select>
+
+    <select id="extraTime" required>
+      <option disabled selected>Temps supplémentaire autorisé ?</option>
+      <option>Oui</option>
+      <option>Non</option>
+    </select>
+
+    <textarea id="description" rows="3" placeholder="Description de l'examen..."></textarea>
+    <input type="text" id="proprietaire" placeholder="Nom du propriétaire" required>
+
+    <button onclick="enregistrerTemporairement()">Suivant</button>
+  </div>
+
+  <script>
+    function enregistrerTemporairement() {
+      const examen = {
+        nom: document.getElementById('nomExamen').value,
+        matiere: document.getElementById('matiere').value,
+        niveau: document.getElementById('niveau').value,
+        date: document.getElementById('date').value,
+        duree: document.getElementById('duree').value,
+        nbQuestions: document.getElementById('nbQuestions').value,
+        type: document.getElementById('type').value,
+        mode: document.getElementById('mode').value,
+        extraTime: document.getElementById('extraTime').value,
+        description: document.getElementById('description').value,
+        proprietaire: document.getElementById('proprietaire').value,
+      };
+
+      for (let key in examen) {
+        if (!examen[key]) {
+          alert(`Veuillez remplir le champ: ${key}`);
+          return;
+        }
+      }
+
+      localStorage.setItem("tempExamen", JSON.stringify(examen));
+      window.location.href = "AjouterQ.html";
+    }
+  </script>
+
+</body>
+</html>

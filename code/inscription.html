@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inscription - FS Tétouan</title>
+  <link href="test.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #f1f5f9, #e2e8f0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: white;
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+    }
+
+    .logo-img {
+      width: 80px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      color: #1E3A8A;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #1F2937;
+      text-align: left;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 16px;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      background-color: #F8FAFC;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background-color: #1E3A8A;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #345ba3;
+    }
+
+    .message {
+      margin-top: 12px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .success { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://images.app.goo.gl/Psr6nY7tmVA1KTV46.png" alt="Logo FS Tétouan" class="logo-img" />
+    <h2>Créer un compte</h2>
+    <form id="inscriptionForm">
+      <label for="nom">Nom</label>
+      <input type="text" id="nom" required />
+
+      <label for="prenom">Prénom</label>
+      <input type="text" id="prenom" required />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" required />
+
+      <label for="password">Mot de passe</label>
+      <input type="password" id="password" required />
+
+      <label for="date_naissance">Date de naissance</label>
+      <input type="date" id="date_naissance" required />
+
+      <label for="sexe">Sexe</label>
+      <select id="sexe" required>
+        <option value="">-- Sélectionner --</option>
+        <option value="Homme">Homme</option>
+        <option value="Femme">Femme</option>
+      </select>
+
+      <label for="etablissement">Établissement</label>
+      <input type="text" id="etablissement" value="FS Tétouan" required />
+
+      <label for="filiere">Filière</label>
+      <input type="text" id="filiere" required />
+
+      <label for="type">Type d'utilisateur</label>
+      <select id="type" required>
+        <option value="">-- Sélectionner --</option>
+        <option value="etudiant">Étudiant</option>
+        <option value="enseignant">Enseignant</option>
+      </select>
+
+      <button type="submit">S'inscrire</button>
+    </form>
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('inscriptionForm');
+    const msg = document.getElementById('message');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const user = {
+        nom: document.getElementById('nom').value.trim(),
+        prenom: document.getElementById('prenom').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        date_naissance: document.getElementById('date_naissance').value,
+        sexe: document.getElementById('sexe').value,
+        etablissement: document.getElementById('etablissement').value.trim(),
+        filiere: document.getElementById('filiere').value.trim(),
+        type: document.getElementById('type').value
+      };
+
+      localStorage.setItem("utilisateur_inscrit", JSON.stringify(user));
+
+      msg.textContent = "Inscription réussie !";
+      msg.className = "message success";
+
+      setTimeout(() => {
+        window.location.href = "LOGIN.html";
+      }, 1500);
+    });
+  </script>
+</body>
+</html>

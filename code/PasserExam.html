@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Passer l'examen</title>
+  <link href="test.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .exam-container {
+      background: #ffffff;
+      padding: 2rem 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 650px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #004080;
+      margin-bottom: 1rem;
+    }
+
+    .timer {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #333;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    .question {
+      margin: 1.5rem 0;
+      color: #222;
+    }
+
+    .question p {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    label {
+      display: block;
+      margin: 0.4rem 0;
+      cursor: pointer;
+    }
+
+    button {
+      margin-top: 2rem;
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #004080;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0066cc;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="exam-container">
+    <h2>Examen de Culture Générale</h2>
+    <div class="timer" id="timer">Temps restant : 02:00</div>
+
+    <form id="examForm">
+      <div class="question">
+        <p>1. Quelle est la capitale du Maroc ?</p>
+        <label><input type="radio" name="q1" value="Tetouan"> Tetouan</label>
+        <label><input type="radio" name="q1" value="Rabat"> Rabat</label>
+        <label><input type="radio" name="q1" value="Casabanca"> Casablanca</label>
+      </div>
+
+      <div class="question">
+        <p>2. Quel est le plus haut sommet du Maroc ?</p>
+        <label><input type="radio" name="q2" value="Jbel Toubkal"> Jbel Toubkal</label>
+        <label><input type="radio" name="q2" value="Jbel Zehroun"> Jbel Zehroun</label>
+        <label><input type="radio" name="q2" value="Jbel Tidghin"> Jbel Tidghin</label>
+      </div>
+
+      <div class="question">
+        <p>3. Quelle est la monnaie officielle du Maroc ?</p>
+        <label><input type="radio" name="q3" value="Euro"> Euro </label>
+        <label><input type="radio" name="q3" value="Dinar"> Dinar</label>
+        <label><input type="radio" name="q3" value="Dirham"> Dirham</label>
+      </div>
+      <div class="question">
+        <p>4. En quelle année le Maroc a-t-il obtenu son indépendance de la France ?</p>
+        <label><input type="radio" name="q4" value="1956"> 1956 </label>
+        <label><input type="radio" name="q4" value="1945"> 1945 </label>
+        <label><input type="radio" name="q4" value="1960"> 1960 </label>
+      </div>
+
+      <button type="button" onclick="submitExam()">Envoyer</button>
+    </form>
+  </div>
+
+  <script>
+    let timeLeft = 120;
+    const timerDisplay = document.getElementById('timer');
+
+    const countdown = setInterval(() => {
+      if (timeLeft <= 0) {
+        clearInterval(countdown);
+        submitExam();
+      } else {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerDisplay.textContent =` Temps restant : ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        timeLeft--;
+      }
+    }, 1000);
+
+    function submitExam() {
+      clearInterval(countdown);
+      const answers = {
+        q1: document.querySelector('input[name="q1"]:checked')?.value || "",
+        q2: document.querySelector('input[name="q2"]:checked')?.value || "",
+        q3: document.querySelector('input[name="q3"]:checked')?.value || "",
+        q4: document.querySelector('input[name="q4"]:checked')?.value || ""
+      };
+
+      localStorage.setItem("examAnswers", JSON.stringify(answers));
+      alert("Examen terminé ! Vos réponses ont été enregistrées.");
+      window.location.href = "Resultat.html";
+    }
+  </script>
+
+</body>
+</html>

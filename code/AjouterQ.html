@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Ajouter des questions</title>
+  <link href="test.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f2f4f8;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #004080;
+      color: white;
+      width: 100%;
+      padding: 1rem 0;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .form-container {
+      margin-top: 3rem;
+      background: white;
+      padding: 2.5rem 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 600px;
+      width: 90%;
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #004080;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1.2rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .status {
+      text-align: center;
+      font-weight: 500;
+      color: #004080;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.9rem;
+      background-color: #004080;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background-color: #0066cc;
+    }
+  </style>
+</head>
+<body>
+
+  <header>Ajouter des questions</header>
+
+  <div class="form-container">
+    <h2>Ajouter des questions</h2>
+    <div class="status" id="statutAjout"></div>
+
+    <div class="input-group">
+      <label>Texte de la question</label>
+      <input type="text" id="questionText">
+    </div>
+
+    <div class="input-group">
+      <label>Choix A</label>
+      <input type="text" id="choixA">
+    </div>
+
+    <div class="input-group">
+      <label>Choix B</label>
+      <input type="text" id="choixB">
+    </div>
+
+    <div class="input-group">
+      <label>Choix C</label>
+      <input type="text" id="choixC">
+    </div>
+
+    <div class="input-group">
+      <label>Choix D</label>
+      <input type="text" id="choixD">
+    </div>
+
+    <div class="input-group">
+      <label>Bonne réponse (A/B/C/D)</label>
+      <input type="text" id="bonneReponse">
+    </div>
+
+    <button onclick="ajouterQuestion()">Ajouter la question</button>
+  </div>
+
+  <script>
+    let examen = JSON.parse(localStorage.getItem("tempExamen"));
+    let questions = [];
+    let compteur = 0;
+
+    document.getElementById("statutAjout").textContent = ` 0 / ${examen.nbQuestions} questions ajoutées pour "${examen.nom}" `;
+
+    function ajouterQuestion() {
+      const qText = document.getElementById("questionText").value.trim();
+      const choixA = document.getElementById("choixA").value.trim();
+      const choixB = document.getElementById("choixB").value.trim();
+      const choixC = document.getElementById("choixC").value.trim();
+      const choixD = document.getElementById("choixD").value.trim();
+      const bonne = document.getElementById("bonneReponse").value.trim().toUpperCase();
+
+      if (!qText || !choixA || !choixB || !choixC || !choixD || !['A', 'B', 'C', 'D'].includes(bonne)) {
+        alert("Veuillez remplir tous les champs correctement.");
+        return;
+      }
+
+      const question = {
+        texte: qText,
+        choix: { A: choixA, B: choixB, C: choixC, D: choixD },
+        bonneReponse: bonne
+      };
+
+      questions.push(question);
+      compteur++;
+
+      document.getElementById("statutAjout").textContent =` ${compteur} / ${examen.nbQuestions} questions ajoutées pour "${examen.nom}"`;
+
+      document.getElementById("questionText").value = "";
+      document.getElementById("choixA").value = "";
+      document.getElementById("choixB").value = "";
+      document.getElementById("choixC").value = "";
+      document.getElementById("choixD").value = "";
+      document.getElementById("bonneReponse").value = "";
+
+      if (compteur === parseInt(examen.nbQuestions)) {
+        examen.questions = questions;
+
+        let examens = JSON.parse(localStorage.getItem("examens")) || [];
+        examens.push(examen);
+        localStorage.removeItem("tempExamen");
+        localStorage.setItem("examens", JSON.stringify(examens));
+
+        alert("Toutes les questions ont été ajoutées avec succès !");
+        window.location.href = "voirExam.HTML";
+      }
+    }
+  </script>
+</body>
+</html>
